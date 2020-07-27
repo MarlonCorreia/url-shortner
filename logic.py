@@ -1,15 +1,9 @@
 import random
 import string
 
-
-
-entry = "google.com"
-
 maps = {'/yyy': 'https://www.youtube.com/', '/ggg': 'https://www.google.com/'}
-#short_url = list(maps.keys())[0]
-#url = list(maps.values())
 
-
+#Return existing shor url in maps or call the function to add it
 def get_short_url(maps, entry):
     position = 0
 
@@ -21,6 +15,7 @@ def get_short_url(maps, entry):
 
     return insert_maps(entry)
 
+#Get URL base on '/<entry>' in endpoint
 def get_url(maps, entry):
     position = 0
 

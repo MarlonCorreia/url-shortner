@@ -5,16 +5,18 @@ host = 'http://127.0.0.1:5000'
 
 app = Flask(__name__, template_folder='templates')
 
+#Only render the index.html template
 @app.route('/')
 def form():
     return render_template('index.html')
 
+#Get URL from html form and provide the short url for it
 @app.route('/', methods = ['POST']) 
 def main(): 
    url = request.form.get("text")
    return render_template('response.html', url_from=host + logic.get_short_url(logic.maps, url))
       
-
+#Check '/<URL>' in short url's to make redirect
 @app.route('/<URL>', methods = ['GET']) 
 
 def redir(URL): 
@@ -26,4 +28,3 @@ def redir(URL):
 if __name__ == '__main__':
     app.run(debug=True)
 
-#need to implement mapping, and find a way to deal with input url for destination
