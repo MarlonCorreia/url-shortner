@@ -5,33 +5,33 @@ import string
 
 entry = "google.com"
 
-maps = {'/yyy': 'https://youtube.com', '/ggg': 'https://google.com'}
-short_url = list(maps.keys())
-url = list(maps.values())
+maps = {'/yyy': 'https://www.youtube.com/', '/ggg': 'https://www.google.com/'}
+#short_url = list(maps.keys())[0]
+#url = list(maps.values())
 
-def get_short_url(url, short_url, entry):
+
+def get_short_url(maps, entry):
     position = 0
 
-    for url in url:
+    for url in list(maps.values()):
         if (url == entry):
-            return short_url[position]
+            return list(maps.keys())[position]
         else:
             position = position +1
 
-    return "not found"
+    return insert_maps(entry)
 
-def get_url(url, short_url, entry):
+def get_url(maps, entry):
     position = 0
 
-    for short_url in short_url:
+    for short_url in list(maps.keys()):
         if (short_url == '/' + entry):
-            return url[position]
+            return list(maps.values())[position]
         else:
             position = position + 1
 
     return "/"
 
-get_url(url, short_url, '/yyy')
 
 #Generate randon string to redirect
 def get_random_string():
@@ -45,5 +45,9 @@ def check_randon_string(result_str):
 
 
 #store new new shortURL in maps
-def insert_data_Base(url_from, url_to):
-    return
+def insert_maps(entry):
+    new_short_url = '/' + get_random_string()
+    maps.update({new_short_url: entry})
+
+    return new_short_url
+

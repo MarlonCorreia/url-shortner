@@ -1,6 +1,7 @@
 from flask import Flask, redirect, request, render_template
 import logic as logic
 
+host = 'http://127.0.0.1:5000'
 
 app = Flask(__name__, template_folder='templates')
 
@@ -11,18 +12,17 @@ def form():
 @app.route('/', methods = ['POST']) 
 def main(): 
    url = request.form.get("text")
-   print(url)
-   return redirect('/', code=302)
+   return render_template('response.html', url_from=host + logic.get_short_url(logic.maps, url))
       
 
 @app.route('/<URL>', methods = ['GET']) 
 
 def redir(URL): 
 
-   logic.get_short_url(logic.url, logic.short_url, URL) 
+   logic.get_short_url(logic.maps, URL) 
 
    if request.method == 'GET':
-      return redirect(logic.get_url(logic.url, logic.short_url, URL), code=302)
+      return redirect(logic.get_url(logic.maps, URL), code=302)
   
 
 if __name__ == '__main__':
