@@ -19,8 +19,6 @@ def main():
 
 def redir(URL): 
 
-   logic.get_short_url(logic.maps, URL) 
-
    if request.method == 'GET':
       return redirect(logic.get_url(logic.maps, URL), code=302)
   
