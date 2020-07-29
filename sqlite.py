@@ -30,19 +30,32 @@ def insert_table(url, shortURL, id):
 
 #insert_table('https://twitch.com', '/ttt', 111)
 
-# lendo os dados
-cursor.execute("""
-SELECT url FROM urls;
-""")
 
-for linha in cursor.fetchall():
-    
-    print(str(linha))
-     
-    if (linha == '(\'https://google.com\',)' ):
-        print(linha)
-    else:
-        print("false")
+def get_short_url(url_passed):
+
+# lendo os dados
+    cursor.execute("""
+    SELECT url FROM urls
+    """)
+
+    db = cursor.fetchall()
+    position = 0
+    print(db[1])
+
+
+    for url in db:
+        if (url == url_passed):
+            print(db[position][0])
+        else:    
+            position = position + 1
+            #print(position)
+            #print("false")
+
+    return
+
+get_short_url('https://twitch.com')
 
 #Closing 
 conn.close()
+
+#toDo: find a way to compare sqlite response to a string. Possible solution: use List() and RegEX 
