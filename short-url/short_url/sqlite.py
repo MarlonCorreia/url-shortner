@@ -11,6 +11,7 @@ def create_schema():
 
     cursor.execute("""
     CREATE TABLE urls (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             url TEXT NOT NULL,
             shortUrl TEXT NOT NULL
     );
@@ -26,49 +27,33 @@ def insert_table(url):
     shortURL = '/' + get_random_string()
 
     conn.execute("""
-        INSERT INTO urls(url, shortURL) VALUES (?, ?)
+        INSERT INTO urls(id, url, shortURL) VALUES (NULL, ?, ?)
     """, (url, shortURL) )
 
     conn.commit()
     conn.close()
-    return shortURL
+    return print(shortURL)
+
 
 
 def get_shortUrl_by_url(url_passed):
     conn = sqlite3.connect('urls.db', check_same_thread=False)
     cursor = conn.cursor()
 
-# lendo os dados
+   # lendo os dados
     cursor.execute("""
-    SELECT url FROM urls
-    """)
+    SELECT shortUrl FROM urls WHERE url = ?
+    """, (url_passed,))
+   
+    response = cursor.fetchone()
 
-    db = [i[0] for i in cursor.fetchall()] 
-    position = 0
-
-    for url in db:
-        if (url == url_passed):
-           conn.close() 
-           return return_short_url(position)
-        else:    
-            position = position + 1
-    conn.close()    
-    return insert_table(url_passed)
-
-def return_short_url(position):
-    conn = sqlite3.connect('urls.db', check_same_thread=False)
-    cursor = conn.cursor()
-
-# lendo os dados
-    cursor.execute("""
-    SELECT shortUrl FROM urls
-    """)
-
-    db = [i[0] for i in cursor.fetchall()] 
-    
-    conn.close()
-    return db[position]
-
+    if (response is not None ):
+        db = [i for i in response]
+        return db[0]
+    else:
+        #toDo: call function to inser in table
+        return "error"    
+  
 
 def get_url_by_shortUrl(shortUrl_passed):
     conn = sqlite3.connect('urls.db', check_same_thread=False)
@@ -76,33 +61,16 @@ def get_url_by_shortUrl(shortUrl_passed):
 
 # lendo os dados
     cursor.execute("""
-    SELECT shortUrl FROM urls
-    """)
+    SELECT url FROM urls WHERE shortUrl = ?
+    """, (shortUrl_passed,))
 
-    db = [i[0] for i in cursor.fetchall()] 
-    position =0
+    response = cursor.fetchone()
 
-    for shortUrl in db:
-        if (shortUrl == '/' + shortUrl_passed):
-           conn.close()
-           return return_url(position)
-        else:    
-            position = position + 1
-    conn.close()    
-    return 
-
-def return_url(position):
-    conn = sqlite3.connect('urls.db', check_same_thread=False)
-    cursor = conn.cursor()
-
-# lendo os dados
-    cursor.execute("""
-    SELECT url FROM urls
-    """)
-
-    db = [i[0] for i in cursor.fetchall()] 
-    conn.close()
-    return db[position]
+    if (response is not None):
+        db = [i for i in response]
+        return db[0]
+    else:
+        return "ShortUrl not Found"
 
 
 #Generate randon string to redirect
