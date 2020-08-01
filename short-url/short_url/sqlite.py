@@ -3,7 +3,6 @@ import string
 import random
 
 
-
 def create_schema():
 
     conn = sqlite3.connect('urls.db', check_same_thread=False)
@@ -116,4 +115,3 @@ def get_random_string():
 def check_randon_string(result_str):
     return 'false'
 
-print(get_url_by_shortUrl('/ykCg'))
