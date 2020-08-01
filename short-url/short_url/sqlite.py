@@ -24,7 +24,7 @@ def create_schema():
 def insert_table(url):
     conn = sqlite3.connect('urls.db', check_same_thread=False)
 
-    shortURL = '/' + get_random_string()
+    shortURL = get_random_string()
 
     conn.execute("""
         INSERT INTO urls(id, url, shortURL) VALUES (NULL, ?, ?)
@@ -32,7 +32,7 @@ def insert_table(url):
 
     conn.commit()
     conn.close()
-    return print(shortURL)
+    return shortURL
 
 
 
@@ -51,8 +51,7 @@ def get_shortUrl_by_url(url_passed):
         db = [i for i in response]
         return db[0]
     else:
-        #toDo: call function to inser in table
-        return "error"    
+        return insert_table(url_passed)    
   
 
 def get_url_by_shortUrl(shortUrl_passed):
@@ -77,7 +76,7 @@ def get_url_by_shortUrl(shortUrl_passed):
 def get_random_string():
     letters = string.ascii_letters
     result_str = ''.join(random.choice(letters) for i in range(4))
-    return result_str
+    return "/" + result_str
 
 #Check if result_string isn't in use
 def check_randon_string(result_str):

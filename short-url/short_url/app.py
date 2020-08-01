@@ -14,7 +14,7 @@ def form():
 @app.route('/', methods = ['POST']) 
 def main(): 
    url = request.form.get("text")
-   return render_template('response.html', url_from=host + sqlite.get_shortUrl_by_url(url))
+   return render_template('response.html', url_from=host + str(sqlite.get_shortUrl_by_url(url)) )
       
 #Check '/<URL>' in short url's to make redirect
 @app.route('/<URL>', methods = ['GET']) 
@@ -22,10 +22,9 @@ def main():
 def redir(URL): 
 
    if request.method == 'GET':
-      return redirect(sqlite.get_url_by_shortUrl(URL), code=302)
+      return redirect(sqlite.get_url_by_shortUrl("/" + URL), code=302)
   
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-#toDo: 
