@@ -58,7 +58,7 @@ def get_url_by_shortUrl(shortUrl_passed):
     conn = sqlite3.connect('urls.db', check_same_thread=False)
     cursor = conn.cursor()
 
-# lendo os dados
+   # lendo os dados
     cursor.execute("""
     SELECT url FROM urls WHERE shortUrl = ?
     """, (shortUrl_passed,))
@@ -76,9 +76,26 @@ def get_url_by_shortUrl(shortUrl_passed):
 def get_random_string():
     letters = string.ascii_letters
     result_str = ''.join(random.choice(letters) for i in range(4))
-    return "/" + result_str
+
+    return check_randon_string(result_str)
+
+
 
 #Check if result_string isn't in use
 def check_randon_string(result_str):
-    return 'false'
+    conn = sqlite3.connect("urls.db")
+    cursor = conn.cursor()
 
+    cursor.execute("""
+    SELECT NOT EXISTS (SELECT id FROM urls WHERE shortUrl= ?)
+    """, (result_str,)) 
+
+    response = cursor.fetchone()
+    db = [i for i in response]
+   
+    if (db[0] == 1 ):
+        conn.close()
+        return '/' + result_str
+    else:
+        conn.close()
+        return get_random_string()
