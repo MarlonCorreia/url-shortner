@@ -1,4 +1,4 @@
-# URL-Shortner
+# URL-Shortener
 
 This is a simple URL shortener using only Python, Flask and Sqlite3 as the database. It'll only have a localhost env because the project it's just so i can practice and develop my Python knowledge.
 
