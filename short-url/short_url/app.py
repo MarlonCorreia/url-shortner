@@ -20,7 +20,7 @@ def main():
 @app.route('/<URL>', methods = ['GET']) 
 
 def redir(URL): 
-
+   print(URL)
    if request.method == 'GET':
       return redirect(sqlite.get_url_by_shortUrl("/" + URL), code=302)
   

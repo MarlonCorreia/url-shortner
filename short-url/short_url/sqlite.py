@@ -69,7 +69,7 @@ def get_url_by_shortUrl(shortUrl_passed):
         db = [i for i in response]
         return db[0]
     else:
-        return "ShortUrl not Found"
+        return "home"
 
 
 #Generate randon string to redirect
