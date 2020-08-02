@@ -1,5 +1,5 @@
 from flask import Flask, redirect, request, render_template
-import logic as logic
+import sqlite as sqlite
 
 host = 'http://127.0.0.1:5000'
 
@@ -14,15 +14,15 @@ def form():
 @app.route('/', methods = ['POST']) 
 def main(): 
    url = request.form.get("text")
-   return render_template('response.html', url_from=host + logic.get_short_url(logic.maps, url))
+   return render_template('response.html', url_from=host + str(sqlite.get_shortUrl_by_url(url)) )
       
 #Check '/<URL>' in short url's to make redirect
 @app.route('/<URL>', methods = ['GET']) 
 
 def redir(URL): 
-
+   print(URL)
    if request.method == 'GET':
-      return redirect(logic.get_url(logic.maps, URL), code=302)
+      return redirect(sqlite.get_url_by_shortUrl("/" + URL), code=302)
   
 
 if __name__ == '__main__':
